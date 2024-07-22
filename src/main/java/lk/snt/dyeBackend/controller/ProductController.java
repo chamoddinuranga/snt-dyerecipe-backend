@@ -1,8 +1,8 @@
 package lk.snt.dyeBackend.controller;
 
+import lk.snt.dyeBackend.dto.ProductDTO;
 import lk.snt.dyeBackend.dto.ResponseDTO;
-import lk.snt.dyeBackend.dto.UserDTO;
-import lk.snt.dyeBackend.service.UserService;
+import lk.snt.dyeBackend.service.ProductService;
 import lk.snt.dyeBackend.util.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,101 +11,99 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/user")
-public class UserController {
+@RequestMapping("api/v1/product")
+public class ProductController {
 
     @Autowired
-    private UserService userService;
+    private ProductService productService;
 
     @Autowired
     private ResponseDTO responseDTO;
 
-    @PostMapping(value = "/saveUser")
-   public  ResponseEntity saveUser(@RequestBody UserDTO userDTO){
-        try{
-            String res=userService.saveUser(userDTO);
-            if (res.equals("00")){
-                responseDTO.setCode(VarList.RSP_SUCCESS);
-                responseDTO.setMessage("Success");
-                responseDTO.setContent(userDTO);
-                return new ResponseEntity(responseDTO,HttpStatus.ACCEPTED);
-            }else if (res.equals("06")){
-                responseDTO.setCode(VarList.RSP_DUPLICATED);
-                responseDTO.setMessage("User Already Exists");
-                responseDTO.setContent(userDTO);
-                return new ResponseEntity(responseDTO,HttpStatus.BAD_REQUEST);
-            }else {
-                responseDTO.setCode(VarList.RSP_FAIL);
-                responseDTO.setMessage("Error");
-                responseDTO.setContent(null);
-                return new ResponseEntity(responseDTO,HttpStatus.BAD_REQUEST);
-            }
-        } catch (Exception ex){
-            responseDTO.setCode(VarList.RSP_ERROR);
-            responseDTO.setMessage(ex.getMessage());
-            responseDTO.setContent(null);
-            return new ResponseEntity(responseDTO,HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-   }
-
-
-    @PutMapping(value = "/updateUser")
-    public  ResponseEntity updateUser(@RequestBody UserDTO userDTO) {
+    @PostMapping(value = "/saveProduct")
+    public ResponseEntity<ResponseDTO> saveProduct(@RequestBody ProductDTO productDTO) {
         try {
-            String res = userService.updateUser(userDTO);
-            if (res.equals("00")) {
+            String res = productService.saveProduct(productDTO);
+            if (res.equals(VarList.RSP_SUCCESS)) {
                 responseDTO.setCode(VarList.RSP_SUCCESS);
                 responseDTO.setMessage("Success");
-                responseDTO.setContent(userDTO);
-                return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
-            } else if (res.equals("01")) {
-                responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
-                responseDTO.setMessage("Not A registered user");
-                responseDTO.setContent(userDTO);
-                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
+                responseDTO.setContent(productDTO);
+                return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
+            } else if (res.equals(VarList.RSP_DUPLICATED)) {
+                responseDTO.setCode(VarList.RSP_DUPLICATED);
+                responseDTO.setMessage("Product Already Exists");
+                responseDTO.setContent(productDTO);
+                return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
             } else {
                 responseDTO.setCode(VarList.RSP_FAIL);
                 responseDTO.setMessage("Error");
                 responseDTO.setContent(null);
-                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
             }
         } catch (Exception ex) {
             responseDTO.setCode(VarList.RSP_ERROR);
             responseDTO.setMessage(ex.getMessage());
             responseDTO.setContent(null);
-            return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
         }
-
     }
 
-    @GetMapping("/getAllUsers")
-    public  ResponseEntity getAllUsers(){
+    @PutMapping(value = "/updateProduct")
+    public ResponseEntity<ResponseDTO> updateProduct(@RequestBody ProductDTO productDTO) {
         try {
-          List<UserDTO> userDTOList = userService.getAllUsers();
+            String res = productService.updateProduct(productDTO);
+            if (res.equals(VarList.RSP_SUCCESS)) {
+                responseDTO.setCode(VarList.RSP_SUCCESS);
+                responseDTO.setMessage("Success");
+                responseDTO.setContent(productDTO);
+                return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
+            } else if (res.equals(VarList.RSP_NO_DATA_FOUND)) {
+                responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
+                responseDTO.setMessage("Not a registered product");
+                responseDTO.setContent(productDTO);
+                return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
+            } else {
+                responseDTO.setCode(VarList.RSP_FAIL);
+                responseDTO.setMessage("Error");
+                responseDTO.setContent(null);
+                return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception ex) {
+            responseDTO.setCode(VarList.RSP_ERROR);
+            responseDTO.setMessage(ex.getMessage());
+            responseDTO.setContent(null);
+            return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/getAllProducts")
+    public ResponseEntity<ResponseDTO> getAllProducts() {
+        try {
+            List<ProductDTO> productDTOList = productService.getAllProducts();
             responseDTO.setCode(VarList.RSP_SUCCESS);
             responseDTO.setMessage("Success");
-            responseDTO.setContent(userDTOList);
-            return new ResponseEntity(responseDTO,HttpStatus.ACCEPTED);
-        }catch (Exception ex){
+            responseDTO.setContent(productDTOList);
+            return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
             responseDTO.setCode(VarList.RSP_ERROR);
             responseDTO.setMessage(ex.getMessage());
             responseDTO.setContent(null);
-            return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
         }
     }
 
-    @GetMapping("/getUserByUserId/{userId}")
-    public ResponseEntity<ResponseDTO> searchUserByUserId(@PathVariable long userId) {
-        UserDTO userDTO = userService.searchUserByUserId(userId);
+    @GetMapping("/getProductByProductId/{productId}")
+    public ResponseEntity<ResponseDTO> searchProductByProductId(@PathVariable long productId) {
+        ProductDTO productDTO = productService.searchProductByProductId(productId);
         try {
-            if (userDTO != null) {
+            if (productDTO != null) {
                 responseDTO.setCode(VarList.RSP_SUCCESS);
                 responseDTO.setMessage("Success");
-                responseDTO.setContent(userDTO);
+                responseDTO.setContent(productDTO);
                 return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
             } else {
                 responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
-                responseDTO.setMessage("No User available for this userID");
+                responseDTO.setMessage("No Product available for this productId");
                 responseDTO.setContent(null);
                 return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
             }
@@ -117,18 +115,18 @@ public class UserController {
         }
     }
 
-    @GetMapping("/getUserByUserName/{userName}")
-    public ResponseEntity<ResponseDTO> searchUserByUserName(@PathVariable String userName) {
-        UserDTO userDTO = userService.searchUserByUserName(userName);
+    @GetMapping("/getProductByProductName/{productName}")
+    public ResponseEntity<ResponseDTO> searchProductByProductName(@PathVariable String productName) {
+        ProductDTO productDTO = productService.searchProductByProductName(productName);
         try {
-            if (userDTO != null) {
+            if (productDTO != null) {
                 responseDTO.setCode(VarList.RSP_SUCCESS);
                 responseDTO.setMessage("Success");
-                responseDTO.setContent(userDTO);
+                responseDTO.setContent(productDTO);
                 return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
             } else {
                 responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
-                responseDTO.setMessage("No User available for this userName");
+                responseDTO.setMessage("No Product available for this productName");
                 responseDTO.setContent(null);
                 return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
             }
@@ -140,18 +138,18 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/deleteUserByUserName/{userName}")
-    public ResponseEntity<ResponseDTO> deleteUserByUserName(@PathVariable String userName) {
-        String res = userService.deleteUserByUserName(userName);
+    @DeleteMapping("/deleteProductByProductName/{productName}")
+    public ResponseEntity<ResponseDTO> deleteProductByProductName(@PathVariable String productName) {
+        String res = productService.deleteProductByProductName(productName);
         try {
-            if (res.equals("00")) {
+            if (res.equals(VarList.RSP_SUCCESS)) {
                 responseDTO.setCode(VarList.RSP_SUCCESS);
-                responseDTO.setMessage("Employee Deleted");
-                responseDTO.setContent(userName);
+                responseDTO.setMessage("Product Deleted");
+                responseDTO.setContent(productName);
                 return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
             } else {
                 responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
-                responseDTO.setMessage("No User available for this userName");
+                responseDTO.setMessage("No Product available for this productName");
                 responseDTO.setContent(null);
                 return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
             }
