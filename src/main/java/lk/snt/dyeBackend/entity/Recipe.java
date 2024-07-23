@@ -43,10 +43,6 @@ public class Recipe {
     @JoinColumn(name = "created_user_id", referencedColumnName = "userId")
     private User createdUser; // User who created the recipe
 
-    @ManyToOne
-    @JoinColumn(name = "order_id", referencedColumnName = "orderId")
-    private Order order; // Order associated with the recipe
-
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private Set<RecipeDetail> recipeDetails; // Set of recipe details associated with the recipe
 }

@@ -10,6 +10,6 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     Optional<Recipe> findByLabDip(String labDip);
     void deleteByLabDip(String labDip);
 
-    boolean existsByGrnNumber(int grnNumber);
-    Optional<Recipe> findByGrnNumber(int grnNumber);
+    /*boolean existsByGrnNumber(int grnNumber);
+    Optional<Recipe> findByGrnNumber(int grnNumber);*/
 }

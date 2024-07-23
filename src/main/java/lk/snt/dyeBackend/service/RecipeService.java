@@ -26,16 +26,16 @@ public class RecipeService {
 
     // Add new Recipe to the database
     public String saveRecipe(RecipeDTO recipeDTO) {
-        /*if (recipeRepository.existsById(recipeDTO.getRecipeId())) {
+        // Check if a recipe with the same LabDip already exists
+        if (recipeRepository.existsByLabDip(recipeDTO.getLabDip())) {
             return VarList.RSP_DUPLICATED;
-        } else*/ /*if (recipeRepository.existsByLabDip(recipeDTO.getLabDip())) {
-            return VarList.RSP_DUPLICATED;
-        } else */if (recipeRepository.existsByGrnNumber(recipeDTO.getGrnNumber())) {
-            return VarList.RSP_DUPLICATED;
-        } else {
-            recipeRepository.save(modelMapper.map(recipeDTO, Recipe.class));
-            return VarList.RSP_SUCCESS;
         }
+
+        // Save the new recipe
+        Recipe recipe = modelMapper.map(recipeDTO, Recipe.class);
+        recipeRepository.save(recipe);
+
+        return VarList.RSP_SUCCESS;
     }
 
     // Update an existing recipe
@@ -64,7 +64,7 @@ public class RecipeService {
         }
     }
 
-    // Search Recipe By recipeName
+    // Search Recipe By labDip
     public RecipeDTO searchRecipeByLabDip(String labDip) {
         if (recipeRepository.existsByLabDip(labDip)) {
             Optional<Recipe> recipeOpt = recipeRepository.findByLabDip(labDip);
@@ -75,14 +75,14 @@ public class RecipeService {
     }
 
     // New method to search by grnNumber
-    public RecipeDTO searchRecipeByGrnNumber(int grnNumber) {
+    /*public RecipeDTO searchRecipeByGrnNumber(int grnNumber) {
         if (recipeRepository.existsByGrnNumber(grnNumber)) {
             Optional<Recipe> recipeOpt = recipeRepository.findByGrnNumber(grnNumber);
             return recipeOpt.map(recipe -> modelMapper.map(recipe, RecipeDTO.class)).orElse(null);
         } else {
             return null;
         }
-    }
+    }*/
 
 
     // Delete Recipe

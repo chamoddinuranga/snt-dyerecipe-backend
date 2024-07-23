@@ -22,4 +22,8 @@ public class Order {
 
     @Temporal(TemporalType.DATE)
     private Date orderDate; // Date when the order was placed
+
+    @ManyToOne
+    @JoinColumn(name = "recipe_id", referencedColumnName = "recipeId")
+    private Recipe recipe; // Recipe associated with the order
 }

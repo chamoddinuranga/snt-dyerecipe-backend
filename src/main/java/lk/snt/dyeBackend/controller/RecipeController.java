@@ -141,7 +141,7 @@ public class RecipeController {
 
     //Search By GRN Number
 
-    @GetMapping("/getRecipeByGRN/{grnNumber}")
+    /*@GetMapping("/getRecipeByGRN/{grnNumber}")
     public ResponseEntity<ResponseDTO> SearchRecipeByGRN(@PathVariable int grnNumber) {
         RecipeDTO recipeDTO = recipeService.searchRecipeByGrnNumber(grnNumber);
         try {
@@ -162,7 +162,7 @@ public class RecipeController {
             responseDTO.setContent(ex);
             return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
+    }*/
 
     @DeleteMapping("/deleteRecipeByRecipeName/{recipeName}")
     public ResponseEntity<ResponseDTO> deleteRecipeByRecipeName(@PathVariable String recipeName) {
