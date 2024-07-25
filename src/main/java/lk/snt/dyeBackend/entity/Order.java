@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
-@Table(name = "Order")
+@Table(name = "OrderDetails")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,7 +23,7 @@ public class Order {
     @Temporal(TemporalType.DATE)
     private Date orderDate; // Date when the order was placed
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "recipe_id", referencedColumnName = "recipeId")
     private Recipe recipe; // Recipe associated with the order
 }

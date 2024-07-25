@@ -1,11 +1,18 @@
 package lk.snt.dyeBackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import jakarta.persistence.*;
+//import org.hibernate.mapping.List;
+
+import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
+
+
 
 @Entity
 @Table(name = "Recipe")
@@ -13,36 +20,25 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Recipe {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long recipeId; // Unique identifier for the recipe
-
-    private String recipeName; // Name of the recipe
-
-    private String color; // Color associated with the recipe
-
+    private Long recipeId;
+    private String color;
     @Column(unique = true)
-    private String labDip; // Unique identifier for the lab dip
+    private String labDip;
+    private int roleCount;
+    private double weight;
+    private String liquorRatio;
+    private double volume;
+    private String createdUser;
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDateTime createdDateTime;
 
-    private int roleCount; // Number of roles for the recipe
-
-    private double weight; // Weight of the recipe
-
-    private String liquorRatio; // Liquor ratio for the recipe
-
-    private double volume; // Volume of the recipe
-
-    @Temporal(TemporalType.DATE)
-    private Date createdDate; // Date when the recipe was created
-
-    @Temporal(TemporalType.TIME)
-    private Date createdTime; // Time when the recipe was created
-
-    @ManyToOne
-    @JoinColumn(name = "created_user_id", referencedColumnName = "userId")
-    private User createdUser; // User who created the recipe
-
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-    private Set<RecipeDetail> recipeDetails; // Set of recipe details associated with the recipe
+   /*@JsonManagedReference
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<RecipeDetail> recipeDetails;*/
+    @JsonIgnore
+    @OneToMany(mappedBy = "recipe",cascade = CascadeType.ALL)
+    private List<RecipeDetail> recipeDetails;
 }
+

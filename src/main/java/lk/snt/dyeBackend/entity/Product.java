@@ -1,9 +1,14 @@
 package lk.snt.dyeBackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
+
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -19,5 +24,12 @@ public class Product {
     private String productName;
 
     private String productType; // e.g., "CHEMICAL" Or "DYE"
+/*
+    @JsonManagedReference
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<RecipeDetail> recipeDetails; // One Chemical is used in many RecipeDetails*/
+@JsonIgnore
+@OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+private List<RecipeDetail> recipeDetails;
 }
 

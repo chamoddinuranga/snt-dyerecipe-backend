@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
@@ -12,6 +13,21 @@ import java.util.Set;
 @NoArgsConstructor
 
 public class RecipeDTO {
+    private Long recipeId;
+    private String color;
+    private String labDip;
+    private int roleCount;
+    private double weight;
+    private String liquorRatio;
+    private double volume;
+    private String createdUser;
+    private LocalDateTime createdDateTime;
+    private Set<RecipeDetailDTO> recipeDetails;
+
+    // Getters and Setters
+}
+
+/*public class RecipeDTO {
 
     private Long recipeId; // Unique identifier for the recipe
 
@@ -27,11 +43,13 @@ public class RecipeDTO {
 
     private double volume; // Volume of the recipe
 
-    private Date createdDate; // Date when the recipe was created
+    private LocalDateTime createdDateTime;
 
-    private Date createdTime; // Time when the recipe was created
+    *//*private Date createdDate; // Date when the recipe was created
+
+    private Date createdTime; *//*// Time when the recipe was created
 
     private Long createdUserId; // ID of the user who created the recipe
 
     private Set<RecipeDetailDTO> recipeDetails; // Set of recipe details associated with the recipe
-}
+}*/

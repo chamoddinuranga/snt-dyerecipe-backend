@@ -10,8 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RecipeDetailDTO {
-    private long recipeDetailId;
-    private Recipe recipe;
-    private Product product;
+    private Long recipeDetailId;
+    private Long recipeId; // ID reference to Recipe
+    private Long productId;
     private double quantityInGrams;
+
 }

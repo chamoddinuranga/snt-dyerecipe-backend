@@ -21,15 +21,15 @@ public class ProductController {
     private ResponseDTO responseDTO;
 
     @PostMapping(value = "/saveProduct")
-    public ResponseEntity<ResponseDTO> saveProduct(@RequestBody ProductDTO productDTO) {
+    public ResponseEntity saveProduct(@RequestBody ProductDTO productDTO) {
         try {
             String res = productService.saveProduct(productDTO);
-            if (res.equals(VarList.RSP_SUCCESS)) {
+            if (res.equals("00")) {
                 responseDTO.setCode(VarList.RSP_SUCCESS);
                 responseDTO.setMessage("Success");
                 responseDTO.setContent(productDTO);
-                return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
-            } else if (res.equals(VarList.RSP_DUPLICATED)) {
+                return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
+            } else if (res.equals("06")) {
                 responseDTO.setCode(VarList.RSP_DUPLICATED);
                 responseDTO.setMessage("Product Already Exists");
                 responseDTO.setContent(productDTO);

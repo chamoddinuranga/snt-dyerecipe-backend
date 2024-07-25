@@ -10,7 +10,7 @@ public interface RecipeDetailRepository extends JpaRepository<RecipeDetail, Long
     // No need to change `existsById` method; JpaRepository already includes it
 
     // Add any custom queries if needed. For example, if you need a method to find by recipeId
-    Optional<RecipeDetail> findByRecipeId(@Param("recipeId") Long recipeId);
+    //Optional<RecipeDetail> findByRecipeId(@Param("recipeId") Long recipeId);
 
     // Add other custom methods as needed based on your requirements
 }
