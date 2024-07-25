@@ -49,7 +49,23 @@ public class RecipeController {
         }
     }
 
-/*    @PutMapping(value = "/updateRecipe")
+    @GetMapping("/getAllRecipes")
+    public ResponseEntity<ResponseDTO> getAllRecipes() {
+        try {
+            List<RecipeDTO> recipeDTOList = recipeService.getAllRecipes();
+            responseDTO.setCode(VarList.RSP_SUCCESS);
+            responseDTO.setMessage("Success");
+            responseDTO.setContent(recipeDTOList);
+            return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            responseDTO.setCode(VarList.RSP_ERROR);
+            responseDTO.setMessage(ex.getMessage());
+            responseDTO.setContent(null);
+            return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping(value = "/updateRecipe")
     public ResponseEntity<ResponseDTO> updateRecipe(@RequestBody RecipeDTO recipeDTO) {
         try {
             String res = recipeService.updateRecipe(recipeDTO);
@@ -76,7 +92,7 @@ public class RecipeController {
             return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
         }
     }
-
+/*
     @GetMapping("/getAllRecipes")
     public ResponseEntity<ResponseDTO> getAllRecipes() {
         try {

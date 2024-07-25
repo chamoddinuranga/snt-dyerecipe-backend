@@ -12,9 +12,9 @@ public class SntDyeBackendApplication {
 		SpringApplication.run(SntDyeBackendApplication.class, args);
 	}
 
-	@Bean
+	/*@Bean
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
-	}
+	}*/
 
 }

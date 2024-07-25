@@ -26,11 +26,11 @@ public class RecipeDetail {
     @JoinColumn(name = "product_id", referencedColumnName = "productId")
     private Product product; // Chemical associated with the recipe detail*/
 
-    @ManyToOne//(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL)//(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id",nullable = true)
     private Recipe recipe; // Recipe associated with the recipe detail
 
-    @ManyToOne//(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL)//(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id",nullable = true)
     private Product product; // Chemical associated with the recipe detail
 
