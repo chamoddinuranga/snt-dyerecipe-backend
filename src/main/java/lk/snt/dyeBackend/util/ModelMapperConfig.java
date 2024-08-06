@@ -1,6 +1,8 @@
 package lk.snt.dyeBackend.util;
 
+import lk.snt.dyeBackend.dto.ProductDTO;
 import lk.snt.dyeBackend.dto.RecipeDetailDTO;
+import lk.snt.dyeBackend.entity.Product;
 import lk.snt.dyeBackend.entity.RecipeDetail;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
@@ -23,7 +25,19 @@ public class ModelMapperConfig {
             }
         });
 
+        // Configure mapping between Product and ProductDTO
+        modelMapper.addMappings(new PropertyMap<Product, ProductDTO>() {
+            @Override
+            protected void configure() {
+                map().setProductId(source.getProductId());
+                map().setProductName(source.getProductName());
+                map().setProductType(source.getProductType());
+                // Add other mappings as needed
+            }
+        });
+
         return modelMapper;
     }
 }
+
 

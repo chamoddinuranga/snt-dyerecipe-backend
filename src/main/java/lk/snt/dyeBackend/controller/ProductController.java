@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("api/v1/product")
 public class ProductController {
@@ -117,6 +118,7 @@ public class ProductController {
 
     @GetMapping("/getProductByProductName/{productName}")
     public ResponseEntity<ResponseDTO> searchProductByProductName(@PathVariable String productName) {
+        System.out.println("productName : " + productName);
         ProductDTO productDTO = productService.searchProductByProductName(productName);
         try {
             if (productDTO != null) {
@@ -160,4 +162,56 @@ public class ProductController {
             return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/searchProducts")
+    public ResponseEntity<ResponseDTO> searchProducts(@RequestParam String query) {
+        try {
+            List<ProductDTO> products = productService.searchProducts(query);
+            ResponseDTO responseDTO = new ResponseDTO();
+            responseDTO.setCode(VarList.RSP_SUCCESS);
+            responseDTO.setMessage("Success");
+            responseDTO.setContent(products);
+            return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+        } catch (Exception ex) {
+            ResponseDTO responseDTO = new ResponseDTO();
+            responseDTO.setCode(VarList.RSP_ERROR);
+            responseDTO.setMessage(ex.getMessage());
+            responseDTO.setContent(null);
+            return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+//    @GetMapping("/products/search")
+//    public ResponseEntity<List<ProductDTO>> searchProducts(@RequestParam("query") String query) {
+//        List<ProductDTO> products = productService.searchProducts(query);
+//        return ResponseEntity.ok(products);
+//    }
+
+    @GetMapping("/getProductType")
+    public ResponseEntity<ResponseDTO> getProductType(@RequestParam String productName) {
+        try {
+            ProductDTO productDTO = productService.searchProductByProductName(productName);
+
+            ResponseDTO responseDTO = new ResponseDTO();
+            if (productDTO != null) {
+                responseDTO.setCode(VarList.RSP_SUCCESS);
+                responseDTO.setMessage("Product found");
+                responseDTO.setContent(productDTO); // Ensure productDTO contains productType
+                return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+            } else {
+                responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
+                responseDTO.setMessage("Product not found");
+                responseDTO.setContent(null);
+                return new ResponseEntity<>(responseDTO, HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception ex) {
+            ResponseDTO responseDTO = new ResponseDTO();
+            responseDTO.setCode(VarList.RSP_ERROR);
+            responseDTO.setMessage(ex.getMessage());
+            responseDTO.setContent(null);
+            return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 }

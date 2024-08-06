@@ -4,9 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -22,7 +21,7 @@ public class RecipeDTO {
     private double volume;
     private String createdUser;
     private LocalDateTime createdDateTime;
-    private Set<RecipeDetailDTO> recipeDetails;
+    private List<RecipeDetailDTO> recipeDetails;
 
     // Getters and Setters
 }

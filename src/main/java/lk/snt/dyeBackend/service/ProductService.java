@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -64,14 +65,14 @@ public class ProductService {
     }
 
     // Search Product By productName
-    public ProductDTO searchProductByProductName(String productName) {
-        if (productRepository.existsByProductName(productName)) {
-            Optional<Product> productOpt = productRepository.findByProductName(productName);
-            return productOpt.map(product -> modelMapper.map(product, ProductDTO.class)).orElse(null);
-        } else {
-            return null;
-        }
-    }
+//    public ProductDTO searchProductByProductName(String productName) {
+//        if (productRepository.existsByProductName(productName)) {
+//            Optional<Product> productOpt = productRepository.findByProductName(productName);
+//            return productOpt.map(product -> modelMapper.map(product, ProductDTO.class)).orElse(null);
+//        } else {
+//            return null;
+//        }
+//    }
 
     // Delete Product
     public String deleteProductByProductName(String productName) {
@@ -82,4 +83,31 @@ public class ProductService {
             return VarList.RSP_NO_DATA_FOUND;
         }
     }
+
+    public List<ProductDTO> searchProducts(String query) {
+        // Fetch products from repository based on search query
+        List<Product> products = productRepository.findByProductNameContainingIgnoreCase(query);
+
+        // Map list of Product entities to list of ProductDTOs
+        return products.stream()
+                .map(product -> modelMapper.map(product, ProductDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public ProductDTO searchProductByProductName(String productName) {
+        System.out.println("Searching for product: " + productName); // Add this line
+        if (productRepository.existsByProductName(productName)) {
+            Optional<Product> productOpt = productRepository.findByProductName(productName);
+            ProductDTO productDTO = productOpt.map(product -> modelMapper.map(product, ProductDTO.class)).orElse(null);
+            System.out.println("ProductDTO found: " + productDTO); // Add this line
+            return productDTO;
+        } else {
+            System.out.println("Product not found."); // Add this line
+            return null;
+        }
+    }
+
+
+
+
 }

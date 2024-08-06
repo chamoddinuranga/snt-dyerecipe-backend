@@ -23,13 +23,10 @@ public class Product {
 
     private String productName;
 
-    private String productType; // e.g., "CHEMICAL" Or "DYE"
-/*
-    @JsonManagedReference
+    private String productType; // e.g., "CHEMICAL" or "DYE"
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<RecipeDetail> recipeDetails; // One Chemical is used in many RecipeDetails*/
-@JsonIgnore
-@OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
-private List<RecipeDetail> recipeDetails;
+    private List<RecipeDetail> recipeDetails; // One Product can be used in many RecipeDetails
 }
+
 

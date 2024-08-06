@@ -1,15 +1,16 @@
 package lk.snt.dyeBackend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import jakarta.persistence.*;
+//import org.hibernate.annotations.processing.Pattern;
+import javax.validation.constraints.Pattern;
+
 //import org.hibernate.mapping.List;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 
@@ -25,6 +26,7 @@ public class Recipe {
     private Long recipeId;
     private String color;
     @Column(unique = true)
+    @Pattern(regexp = "^[A-Z]{4} [0-9]{4}$", message = "Invalid labDip format")
     private String labDip;
     private int roleCount;
     private double weight;
