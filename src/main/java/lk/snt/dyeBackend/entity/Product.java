@@ -25,7 +25,7 @@ public class Product {
 
     private String productType; // e.g., "CHEMICAL" or "DYE"
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<RecipeDetail> recipeDetails; // One Product can be used in many RecipeDetails
 }
 
