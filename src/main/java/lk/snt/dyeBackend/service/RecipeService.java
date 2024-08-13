@@ -210,6 +210,7 @@ public class RecipeService {
                 detail.setAddFunction(detailDTO.getAddFunction()); // Set new fields
                 detail.setDose(detailDTO.getDose());
                 detail.setTemp(detailDTO.getTemp());
+                detail.setTime(detailDTO.getTime());
 
                 // Set Recipe reference
                 detail.setRecipe(recipe);
@@ -277,6 +278,7 @@ public class RecipeService {
                 detail.setAddFunction(detailDTO.getAddFunction()); // Set new fields
                 detail.setDose(detailDTO.getDose());
                 detail.setTemp(detailDTO.getTemp());
+                detail.setTime(detailDTO.getTime());
 
                 // Fetch Product entity from the database
                 Product product = productRepository.findByProductName(detailDTO.getProductName())
